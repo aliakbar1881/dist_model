@@ -3,6 +3,7 @@ from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.docstore.in_memory import InMemoryDocstore
 from langchain_community.vectorstores import FAISS
+from langchain_huggingface import HuggingFaceEmbeddings
 import faiss
 from pathlib import Path
 from typing import List
@@ -13,8 +14,9 @@ from nltk.tokenize import sent_tokenize
 
 
 class Index:
-    def __init__(self):
-        pass
+    def __init__(self, dirname):
+        self.dirname = dirname
+        self.embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
         
     def load_pdfs(self):
         dir_path = [path.name for path in Path(f"{self.dirname}/index/").iterdir() if path.is_dir()]

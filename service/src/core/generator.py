@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from dotenv import load_dotenv
 from transformers import GPTNeoXForCausalLM, AutoTokenizer
 
-class AbstractModel(ABC):
+class AbstractGenerator(ABC):
     def __init__(self, model_name):
         self.model_name = model_name
 
@@ -18,11 +18,11 @@ class AbstractModel(ABC):
         pass
 
 
-class OpenAIModel(AbstractModel):
+class OpenAIGenerator(AbstractGenerator):
     def __init__(self, model_name):
         super().__init__(model_name)
         load_dotenv()
-        model = OpenAI()
+        self.model = OpenAI()
 
     def generate(self, sentences, query):
         prompt = self.prompting(sentences, query)
@@ -48,7 +48,7 @@ class OpenAIModel(AbstractModel):
         return prompt
 
 
-class Pythia_1B(AbstractModel):
+class Pythia_1B(AbstractGenerator):
     def __init__(self):
         super().__init__("pythia-1b")
         self.model = GPTNeoXForCausalLM.from_pretrained(

@@ -1,0 +1,10 @@
+python
+torch
+fastai
+langchain-community
+langchain-core
+langchain
+langchain-huggngface
+transformers
+openai
+nltk

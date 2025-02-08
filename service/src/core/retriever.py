@@ -1,27 +1,21 @@
-from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_core.documents import Document
-from pathlib import Path
-from openai import OpenAI
-from index import index
 from dotenv import load_dotenv
 import requests
 from fastapi import FastAPI
 from pydantic import BaseModel
 
 
-from model import OpenAIModel
-from index import Index
+from src.core.generator import OpenAIGenerator
+from src.core.index import Index
 
 
 class Retriver:
     def __init__(self, dirname):
         load_dotenv()
         self.dirname = dirname
-        self.embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
-        self.model = OpenAIModel('openai')
-        self.index = Index()
+        self.generator = OpenAIGenerator('openai')
+        self.index = Index(self.dirname)
         self.pdfs = self.load_indexed_pdf()
+        self.nodes = []
         self.listen()
 
     def retrieve(self, query, k, remote=True):
@@ -34,7 +28,7 @@ class Retriver:
         # get result from local informations
         for vector_store in self.pdfs:
             senteces = self.similarity_search(vector_store, query, k)
-            results.append(self.model.generate(senteces, query))
+            results.append(self.generator.generate(senteces, query))
         return results
 
     def load_indexed_pdf(self):
@@ -61,7 +55,7 @@ class Retriver:
 
     def __call__(self, query, k=10):
         informations = self.retrieve(query, k)
-        response = self.model.generate(informations, query)
+        response = self.generator.generate(informations, query)
         return response
 
 
