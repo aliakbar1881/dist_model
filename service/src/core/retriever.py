@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 
-from src.core.generator import OpenAIGenerator
+from src.core.generator import Pythia_1B
 from src.core.index import Index
 
 
@@ -12,7 +12,7 @@ class Retriver:
     def __init__(self, dirname):
         load_dotenv()
         self.dirname = dirname
-        self.generator = OpenAIGenerator('openai')
+        self.generator = Pythia_1B()
         self.index = Index(self.dirname)
         self.pdfs = self.load_indexed_pdf()
         self.nodes = []

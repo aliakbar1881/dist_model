@@ -52,14 +52,14 @@ class Pythia_1B(AbstractGenerator):
     def __init__(self):
         super().__init__("pythia-1b")
         self.model = GPTNeoXForCausalLM.from_pretrained(
-            "EleutherAI/pythia-70m-deduped",
+            "EleutherAI/pythia-1b-deduped",
             revision="step3000",
-            cache_dir="./pythia-70m-deduped/step3000",
+            cache_dir="./pythia-1b-deduped/step3000",
         )
         self.tokenizer = AutoTokenizer.from_pretrained(
-            "EleutherAI/pythia-70m-deduped",
+            "EleutherAI/pythia-1b-deduped",
             revision="step3000",
-            cache_dir="./pythia-70m-deduped/step3000",
+            cache_dir="./pythia-1b-deduped/step3000",
         )
 
     def generate(self, sentences, query):
@@ -84,8 +84,6 @@ class Pythia_1B(AbstractGenerator):
         
         User
         {user_prompt}
-
-        Assistant
         """
         return prompt
 

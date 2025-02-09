@@ -18,11 +18,11 @@ RUN chmod -R 777 ~/conda
 # Create and activate environment, and install packages, all in one RUN command
 RUN  /bin/bash -c "conda create -n dist_model -y python=3.9 && \
      source ~/conda/bin/activate dist_model && \
-     conda install -y pytorch conda-forge::transformers langchain langchain-community && \
+     conda install -y pytorch conda-forge::transformers langchain langchain-community nltk flask fastapi conda-forge::faiss-cpu openai && \
      conda info --envs"
-
+RUN pip install langchain-huggingface
 # Add environment activation to .bashrc (optional, but often helpful for future shell sessions)
 RUN echo "source ~/conda/bin/activate dist_model" >> /root/.bashrc
 
 # Verify environment
-CMD ["/bin/bash", "-c", "source ~/conda/bin/activate dist_model && conda list"]
+CMD ["/bin/bash", "-c", "source ~/conda/bin/activate dist_model && git clone https://github.com/aliakbar1881/dist_model.git && cd dist_model/service/ && echo PYTHONPATH=$PWD >> .env && mkdir index data && python main.py"]

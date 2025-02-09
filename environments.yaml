@@ -1,10 +1,11 @@
-python
-torch
-fastai
+pytorch
+fastapi
 langchain-community
 langchain-core
 langchain
-langchain-huggngface
-transformers
+conda-forge::langchain-huggngface
+conda-froge::transformers
 openai
 nltk
+flask
+conda-forge::faiss-cpu
