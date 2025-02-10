@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 
-from src.core.generator import Pythia_1B
+from src.core.generator import QwenGenerator
 from src.core.index import Index
 
 
@@ -12,7 +12,7 @@ class Retriver:
     def __init__(self, dirname):
         load_dotenv()
         self.dirname = dirname
-        self.generator = Pythia_1B()
+        self.generator = QwenGenerator()
         self.index = Index(self.dirname)
         self.pdfs = self.load_indexed_pdf()
         self.nodes = []
@@ -61,4 +61,4 @@ class Retriver:
 
 if __name__ == "__main__":
     retriver = Retriver('./')
-    print(retriver("How to deploy a CNN model, ", k=10))
+    print(retriver("How to explain a CNN model layers? ", k=10))
