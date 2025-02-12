@@ -55,10 +55,17 @@ class Retriver:
 
     def __call__(self, query, k=10):
         informations = self.retrieve(query, k)
+        print("="*50)
+        print(informations)
+        print("="*50)
         response = self.generator.generate(informations, query)
         return response
 
 
 if __name__ == "__main__":
+    import time
     retriver = Retriver('./')
-    print(retriver("How to explain a CNN model layers? ", k=10))
+    t1 = time.time()
+    print(retriver("How to explain a CNN model layers?", k=10))
+    t2 = time.time()
+    print("Time to spend: ", t2 - t1)

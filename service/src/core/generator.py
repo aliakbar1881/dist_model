@@ -19,8 +19,8 @@ class AbstractGenerator(ABC):
 
 
 class OpenAIGenerator(AbstractGenerator):
-    def __init__(self, model_name):
-        super().__init__(model_name)
+    def __init__(self):
+        super().__init__('openai')
         load_dotenv()
         self.model = OpenAI()
 
