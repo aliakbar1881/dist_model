@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import requests
 from fastapi import FastAPI
+import uvicorn 
 from pydantic import BaseModel
 
 
@@ -15,8 +16,7 @@ class Retriver:
         self.generator = QwenGenerator()
         self.index = Index(self.dirname)
         self.pdfs = self.load_indexed_pdf()
-        self.nodes = []
-        self.listen()
+        self.nodes = ["http://172.17.0.2:8000/query"]
 
     def retrieve(self, query, k, remote=True):
         results = []
@@ -50,8 +50,10 @@ class Retriver:
 
 
         @app.post("/query/")
-        async def create_item(query: Query):
+        async def query(query: Query):
             return self.retrieve(query['query'], query['k'], remote=False)
+
+        uvicorn.run(app, host="0.0.0.0", port=8000)
 
     def __call__(self, query, k=10):
         informations = self.retrieve(query, k)

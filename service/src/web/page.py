@@ -1,10 +1,8 @@
 from flask import Flask, request, render_template_string
-from src.core.retriever import Retriver
 
-def web_page(dirname):
+
+def web_page(generator):
     app = Flask(__name__)
-    generator = Retriver(dirname)
-
     @app.route('/', methods=['GET', 'POST'])
     def index():
         template = """
@@ -112,5 +110,4 @@ def web_page(dirname):
             return render_template_string(template, result=response)
         
         return render_template_string(template)
-
-    return app
+    app.run(debug=True)

@@ -9,3 +9,4 @@ openai
 nltk
 flask
 conda-forge::faiss-cpu
+uvicorn

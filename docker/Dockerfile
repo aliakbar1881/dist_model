@@ -18,7 +18,7 @@ RUN chmod -R 777 ~/conda
 # Create and activate environment, and install packages, all in one RUN command
 RUN  /bin/bash -c "conda create -n dist_model -y python=3.9 && \
      source ~/conda/bin/activate dist_model && \
-     conda install -y pytorch conda-forge::transformers langchain langchain-community nltk flask fastapi conda-forge::faiss-cpu openai conda-forge::langchain-huggingface && \
+     conda install -y pytorch uvicorn conda-forge::transformers langchain langchain-community nltk flask fastapi conda-forge::faiss-cpu openai conda-forge::langchain-huggingface && \
      conda info --envs"
 RUN apt-get update && apt-get install -y python3-pip git
 # Add environment activation to .bashrc (optional, but often helpful for future shell sessions)
