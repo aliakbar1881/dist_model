@@ -16,7 +16,7 @@ class Retriver:
         self.generator = QwenGenerator()
         self.index = Index(self.dirname)
         self.pdfs = self.load_indexed_pdf()
-        self.nodes = ["http://172.17.0.2:8000/query"]
+        self.nodes = []
 
     def retrieve(self, query, k, remote=True):
         results = []
@@ -57,9 +57,6 @@ class Retriver:
 
     def __call__(self, query, k=10):
         informations = self.retrieve(query, k)
-        print("="*50)
-        print(informations)
-        print("="*50)
         response = self.generator.generate(informations, query)
         return response
 

@@ -1,12 +1,9 @@
-version: '3'
-
 services:
   dist_model_1:
     image: dist_model:0.1
     ports:
       - "5001:5000"
     volumes:
-      - ./src:/root/dist_model/service/src:ro
       - ./data/1/:/root/dist_model/service/data/
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000"]
@@ -19,7 +16,6 @@ services:
     ports:
       - "5002:5000"
     volumes:
-      - ./src:/root/dist_model/service/src:ro
       - ./data/2/:/root/dist_model/service/data/
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000"]
@@ -32,7 +28,6 @@ services:
     ports:
       - "5003:5000"
     volumes:
-      - ./src:/root/dist_model/service/src:ro
       - ./data/3/:/root/dist_model/service/data/
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000"]

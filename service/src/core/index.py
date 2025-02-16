@@ -32,7 +32,7 @@ class Index:
             data.append(FAISS.load_local(index_path, self.embeddings, allow_dangerous_deserialization=True))
         return data
 
-    def index_pdf(filename):
+    def index_pdf(self, filename):
         nltk.download('punkt')
         nltk.download('punkt_tab')
         pdf_loader = PDFMinerLoader(f"./data/{filename}")
