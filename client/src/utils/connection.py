@@ -5,7 +5,6 @@ from src.utils.const import Constants
 from src.utils.io import write
 
 
-
 class SocketIOClient:
     def __init__(self, retriver):
         self.sio = socketio.Client()
@@ -33,7 +32,7 @@ class SocketIOClient:
         self.sio.connect(self.const.server_url, auth=self.auth_data, transports=['websocket'])
         
     def send_query(self, query):
-        self.sio.emit('query', {'auth_data': , 'query': query})
+        self.sio.emit('query', {'auth_data': self.auth_data.update({'query': query})})
 
     def send_response(self, target_client_id, response):
         self.sio.emit('response', {'target_client_id': target_client_id, 'response': response})
