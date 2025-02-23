@@ -1,12 +1,14 @@
 from dotenv import load_dotenv
 import requests
 from fastapi import FastAPI
-import uvicorn 
+from pathlib import Path
 from pydantic import BaseModel
+from src.utils.connection import SocketIOClient
 
 
 from src.core.generator import QwenGenerator
 from src.core.index import Index
+from src.utils.io import read
 
 
 class Retriver:
@@ -16,15 +18,17 @@ class Retriver:
         self.generator = QwenGenerator()
         self.index = Index(self.dirname)
         self.pdfs = self.load_indexed_pdf()
-        self.nodes = []
+        self.socket = SocketIOClient(self)
+        self.socket()
 
     def retrieve(self, query, k, remote=True):
         results = []
         # get result from nodes information
         if remote:
-            for node in self.nodes:
-                sentence = self.query_node(node, query, k=k)
-                results.append(sentence)
+            self.query_node(query)
+            time.sleep(10)
+            response = self.read_temp_file()
+            results.append(response)
         # get result from local informations
         for vector_store in self.pdfs:
             senteces = self.similarity_search(vector_store, query, k)
@@ -38,22 +42,11 @@ class Retriver:
         return vector_store.similarity_search(query, k=k)
 
     def query_node(self, node, query, k=10):
-        result = requests.post(node, data={"query" : query, "k" : k})
-        return result.text
+        self.socket.send_query(query) 
 
-    def listen(self):
-        class Query(BaseModel):
-            query: str
-            k: int
-
-        app = FastAPI()
-
-
-        @app.post("/query/")
-        async def query(query: Query):
-            return self.retrieve(query['query'], query['k'], remote=False)
-
-        uvicorn.run(app, host="0.0.0.0", port=8000)
+    def read_temp_file(self):
+        path = Path(self.dirname) / "temp/response.json"
+        return read(path)
 
     def __call__(self, query, k=10):
         informations = self.retrieve(query, k)

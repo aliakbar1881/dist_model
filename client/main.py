@@ -7,10 +7,9 @@ from src.core.retriever import Retriver
 
 def main():
     generator = Retriver(Path('./').resolve())
-    p1 = multiprocessing.Process(target=generator.listen)
-    p2 = multiprocessing.Process(target=web_page, args=(generator,))
+    p1 = multiprocessing.Process(target=web_page, args=(generator,))
     p1.start()
-    p2.start()
+
 
 if __name__ == "__main__":
     main()

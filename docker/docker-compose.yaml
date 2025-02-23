@@ -1,6 +1,6 @@
 services:
   dist_model_1:
-    image: dist_model:0.1
+    image: dist_model:0.2
     ports:
       - "5001:5000"
     volumes:
