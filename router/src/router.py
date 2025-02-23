@@ -12,9 +12,9 @@ clients_connected = {}
 auth = Authenticate()
 
 @socketio.on('connect')
-def handle_connect(auth):
+def handle_connect(token):
     sid = request.sid
-    auth_data = auth['token']
+    auth_data = token
     if auth.authenticate(auth_data):
         user_id = auth.get_user_id_from_auth(auth_data)
         if user_id not in clients_connected:

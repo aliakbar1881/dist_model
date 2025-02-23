@@ -1,11 +1,8 @@
 from dotenv import load_dotenv
-import requests
-from fastapi import FastAPI
 from pathlib import Path
-from pydantic import BaseModel
+import time
+
 from src.utils.connection import SocketIOClient
-
-
 from src.core.generator import QwenGenerator
 from src.core.index import Index
 from src.utils.io import read
@@ -41,7 +38,7 @@ class Retriver:
     def similarity_search(self, vector_store, query, k):
         return vector_store.similarity_search(query, k=k)
 
-    def query_node(self, node, query, k=10):
+    def query_node(self, query, k=10):
         self.socket.send_query(query) 
 
     def read_temp_file(self):

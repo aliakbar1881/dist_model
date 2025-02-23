@@ -26,20 +26,23 @@ class SocketIOClient:
         target_client_id = data['target_client']
         response = self.retriver.retrieve(query, remote=False)
         self.send_response(target_client_id, response)
+        print('query received')
 
     def connect_to_server(self):
-        print(self.const.server_url)
         self.sio.connect(self.const.server_url, auth=self.auth_data, transports=['websocket'])
         
     def send_query(self, query):
         self.sio.emit('query', {'query': query})
 
     def send_response(self, target_client_id, response):
+        print('response sent')
         self.sio.emit('response', {'target_client_id': target_client_id, 'response': response})
 
     def on_response(self, data):
         response = data['response']
         self.write_to_temp(response)
+        print('response recive')
+
 
     def write_to_temp(self, response):
         path = Path(self.cosnt.path) / "temp/response.json"
