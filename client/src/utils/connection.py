@@ -10,7 +10,7 @@ class SocketIOClient:
         self.sio = socketio.Client()
         self.retriver = retriver
         self.const = Constants()
-        self.auth_data = {'auth_data': self.const.token}
+        self.auth_data = {'token': self.const.token}
 
         # Register event handlers
         @self.sio.event
@@ -32,7 +32,7 @@ class SocketIOClient:
         self.sio.connect(self.const.server_url, auth=self.auth_data, transports=['websocket'])
         
     def send_query(self, query):
-        self.sio.emit('query', {'auth_data': self.auth_data.update({'query': query})})
+        self.sio.emit('query', {'query': query})
 
     def send_response(self, target_client_id, response):
         self.sio.emit('response', {'target_client_id': target_client_id, 'response': response})
